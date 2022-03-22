@@ -69,9 +69,7 @@ namespace StudentDeptApiAssignment.Controllers
             db.Entry(current).CurrentValues.SetValues(newValue);
             db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Updated");
-
-
-
         }
+
     }
 }

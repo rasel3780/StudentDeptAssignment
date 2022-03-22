@@ -166,6 +166,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\DepartmentModel.cs" />
+    <Compile Include="Models\Entities\DepartmentStudentRelationModel.cs" />
     <Compile Include="Models\Entities\StudentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -67,5 +67,28 @@ namespace StudentDeptApiAssignment.Controllers
             db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Updated");
         }
+        [Route("api/dept/details/{id}")]
+        [HttpGet]
+        public HttpResponseMessage DeptDetails(int id)
+        {
+            ApiAssignmentEntities db = new ApiAssignmentEntities();
+            var students = (from stu in db.Students
+                            where stu.DeptId.Equals(id)
+                            select stu).ToList();
+
+            var department = (from dept in db.Departments
+                        where dept.Id.Equals(id)
+                        select dept).FirstOrDefault();
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Student, StudentModel>());
+            var mapper = new Mapper(config);
+            var studentList = mapper.Map<List<StudentModel>>(students);
+
+            DepartmentStudentRelationModel deptStuRelation = new DepartmentStudentRelationModel();
+            deptStuRelation.Id = department.Id;
+            deptStuRelation.Name = department.Name;
+            deptStuRelation.students = studentList;
+            return Request.CreateResponse(HttpStatusCode.OK, deptStuRelation);
+        }
     }
 }
