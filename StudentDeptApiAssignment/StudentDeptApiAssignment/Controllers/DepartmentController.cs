@@ -46,11 +46,32 @@ namespace StudentDeptApiAssignment.Controllers
         {
             ApiAssignmentEntities db = new ApiAssignmentEntities();
             var department = (from dept in db.Departments
-                           where dept.Id.Equals(id)
-                           select dept).FirstOrDefault();
+                              where dept.Id.Equals(id)
+                              select dept).FirstOrDefault();
             db.Departments.Remove(department);
             db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Deleted");
+        }
+        [Route("api/dept/update")]
+        [HttpPut]
+        public HttpResponseMessage Update(DepartmentModel departmentModel)
+        {
+
+            ApiAssignmentEntities db = new ApiAssignmentEntities();
+            var current = (from dept in db.Departments
+                           where dept.Id.Equals(departmentModel.Id)
+                           select dept).FirstOrDefault();
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<DepartmentModel, Department>());
+            var mapper = new Mapper(config);
+            var newValue = mapper.Map<Department>(departmentModel);
+
+            db.Entry(current).CurrentValues.SetValues(newValue);
+            db.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.OK, "Updated");
+
+
+
         }
     }
 }
