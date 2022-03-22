@@ -10,24 +10,21 @@ using System.Web.Http;
 
 namespace StudentDeptApiAssignment.Controllers
 {
-    public class DepartmentController : ApiController
+    public class StudentController : ApiController
     {
-        [Route("api/dept/add")]
+        [Route ("api/stu/add")]
         [HttpPost]
-
-        public HttpResponseMessage Add(DepartmentModel departmentModel)
+        public HttpResponseMessage Add(StudentModel studentModel)
         {
-
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<DepartmentModel, Department>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<StudentModel, Student>());
             var mapper = new Mapper(config);
-            var dept = mapper.Map<Department>(departmentModel);
+            var stu = mapper.Map<Student>(studentModel);
 
             ApiAssignmentEntities db = new ApiAssignmentEntities();
-            db.Departments.Add(dept);
+            db.Students.Add(stu);
             db.SaveChanges();
-            return Request.CreateResponse(HttpStatusCode.OK, "Department added");
-
+            return Request.CreateResponse (HttpStatusCode.OK, "Student added");
         }
-
+        
     }
 }
