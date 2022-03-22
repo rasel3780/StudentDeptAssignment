@@ -28,6 +28,18 @@ namespace StudentDeptApiAssignment.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "Department added");
 
         }
+        [Route("api/dept/list")]
+        [HttpGet]
+        public HttpResponseMessage ShowList()
+        {
+            ApiAssignmentEntities db = new ApiAssignmentEntities();
+            var dept = db.Departments.ToList();
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Department, DepartmentModel>());
+            var mapper = new Mapper(config);
+            var deptModel = mapper.Map<List<DepartmentModel>>(dept);
+            return Request.CreateResponse(HttpStatusCode.OK, deptModel);
+        }
+
 
     }
 }
