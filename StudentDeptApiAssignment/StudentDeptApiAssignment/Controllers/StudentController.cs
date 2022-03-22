@@ -39,5 +39,21 @@ namespace StudentDeptApiAssignment.Controllers
             db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Deleted");
         }
+        [Route ("api/stu/update/")]
+        [HttpPut]
+        public HttpResponseMessage Update(StudentModel studentModel)
+        {
+            ApiAssignmentEntities db = new ApiAssignmentEntities();
+            var student = (from stu in db.Students
+                           where stu.Id.Equals (studentModel.Id)
+                           select stu).FirstOrDefault ();
+            var config = new MapperConfiguration(cfg => cfg.CreateMap < StudentModel, Student >());
+            var mapper = new Mapper(config);
+            var newValues = mapper.Map<Student>(studentModel);
+
+            db.Entry(student).CurrentValues.SetValues(newValues);
+            db.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.OK, "Üpdated");
+        }
     }
 }
