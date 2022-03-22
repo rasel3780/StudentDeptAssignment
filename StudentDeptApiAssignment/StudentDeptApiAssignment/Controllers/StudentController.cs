@@ -25,6 +25,19 @@ namespace StudentDeptApiAssignment.Controllers
             db.SaveChanges();
             return Request.CreateResponse (HttpStatusCode.OK, "Student added");
         }
+
+        [Route("api/stu/delete/{id}")]
+        [HttpDelete]
         
+        public HttpResponseMessage Delete(int id)
+        {
+            ApiAssignmentEntities db = new ApiAssignmentEntities();
+            var student = (from stu in db.Students
+                       where stu.Id.Equals(id)
+                       select stu).FirstOrDefault();
+            db.Students.Remove(student);
+            db.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.OK, "Deleted");
+        }
     }
 }
